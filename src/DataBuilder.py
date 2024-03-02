@@ -33,7 +33,7 @@ class DataBuilder:
         self.generate_arrays()
         self.search_space = self.get_search_space()
 
-    def get_possible_moves(self, x, y, numberOfMoves=5):
+    def get_possible_moves(self, x, y, numberOfMoves=5, day=None, path=None):
         if numberOfMoves == 0:
             return 0
         if x < 0 or x > 99 or y < 0 or y > 99:
@@ -41,13 +41,16 @@ class DataBuilder:
         if self.world_array[x][y][0] == 1:
             return []
         possible_moves = [(x,y)]
-        self.next_move(x, y, 0, possible_moves)
+        if path is None:
+            self.next_move_first_rigg(x, y, 0, possible_moves)
+        else:
+            self.next_move_second_rigg(x, y, 0, possible_moves, path, day)
         return possible_moves
 
     #helper function to get all possible moves
     #recursively move by one step, until we reach the maximum number of moves
     #continue if we hit an obstacle
-    def next_move(self, x, y, moveNb, moves, visited=[]):
+    def next_move_first_rigg(self, x, y, moveNb, moves, visited=[]):
         if moveNb == 5: #max number of moves
             return
         for i in range(-1, 2):
@@ -66,7 +69,45 @@ class DataBuilder:
                     moves.append((newX, newY))
                 if (newX, newY, moveNb) not in visited:
                     visited.append((newX, newY, moveNb))
-                    self.next_move(newX, newY, moveNb + 1, moves, visited)
+                    self.next_move_first_rigg(newX, newY, moveNb + 1, moves, visited)
+
+    #helper function to get all possible moves
+    #recursively move by one step, until we reach the maximum number of moves
+    #continue if we hit an obstacle
+    #continue if we are in the neighbourhood of the first rigg
+    def next_move_second_rigg(self, x, y, moveNb, moves, path, day, visited=[]):
+        if moveNb == 5: #max number of moves
+            return
+        for i in range(-1, 2):
+            newX = x + i
+            if newX < 0 or newX > 99:
+                continue
+            for j in range(-1, 2):
+                if i == 0 and j == 0:
+                    continue
+                newY = y + j
+                if newY < 0 or newY > 99:
+                    continue
+                if self.world_array[newX][newY][0] == 1:
+                    continue 
+                if self.is_in_neigbourhood_of_first_rigg(newX, newY, path, day): 
+                    continue
+                if (newX, newY) not in moves:
+                    moves.append((newX, newY))
+                if (newX, newY, moveNb) not in visited:
+                    visited.append((newX, newY, moveNb))
+                    self.next_move_second_rigg(newX, newY, moveNb + 1, moves, visited)
+    
+    def is_in_neigbourhood_of_first_rigg(self, x, y, path, day):
+        firstRiggX, firstRiggY = path.get_day_position(day)
+       
+        x_diff = abs(firstRiggX - x)
+        y_diff = abs(firstRiggY - y)
+
+        max_diff = max(x_diff, y_diff)
+        return max_diff <= 2
+
+
 
     #get evaluated value at a certain point on a given day
     #to maximize, we add all the resources on a map, and substract the preserveration resource

@@ -2,7 +2,7 @@ import numpy as np
 
 class Path: 
     def __init__(self, length):
-        self.path = np.empty((length, 3), dtype=int)
+        self.path = np.empty((length, 3), dtype=float)
     
     def set_day_position(self, index, x, y, value):
             self.path[index][0] = x
@@ -11,6 +11,9 @@ class Path:
 
     def get_day_value(self, index):
         return self.path[:, index]
+    
+    def get_day_position(self, index):
+        return self.path[index][0], self.path[index][1]
         
     def get_total_value(self):
         return np.sum(self.path[:, 2])
