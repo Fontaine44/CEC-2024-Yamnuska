@@ -95,14 +95,14 @@ class DataBuilder:
                     search_array[i][j][k][1] = value
 
         # normalize between 0 and 1
-        slice_of_interest = search_array[..., 1]
+        slice = search_array[..., 1]
 
         # Compute min and max values of this slice
-        min_val = np.min(slice_of_interest)
-        max_val = np.max(slice_of_interest)
+        min_val = np.min(slice)
+        max_val = np.max(slice)
 
         # Normalize the slice
-        normalized_slice = (slice_of_interest - min_val) / (max_val - min_val)
+        normalized_slice = (slice - min_val) / (max_val - min_val)
 
         # Assign the normalized values back to the original array
         search_array[..., 1] = normalized_slice
@@ -112,10 +112,8 @@ class DataBuilder:
 
     def generate_array(self, dataset):
         array = np.zeros((100, 100, 30))
-        min_value = math.inf
-        max_value = -math.inf
         for i in range(1, 31):
-            with open(dataset + str(i) + '.csv', 'r') as file:
+            with open(dataset + str(i) + '.csv', 'r') as file: #get data from csv
                 reader = csv.reader(file)
                 for row in reader:
                     if row[1] == 'x':
@@ -124,10 +122,6 @@ class DataBuilder:
                     y = int(row[2])
                     if row[3] != '':
                         value = float(row[3])
-                        if value < min_value:
-                            min_value = value
-                        if value > max_value:
-                            max_value = value
                         array[x][y][i - 1] = value
 
         #normalize between 0 and 1
@@ -155,6 +149,8 @@ if __name__ == '__main__':
     db = DataBuilder()
     search_space = db.search_space
     json.dump(search_space.tolist(), open('search_space.json', 'w'))
+    json.dump(db.temp_array.tolist(), open('temp_array.json', 'w'))
+    json.dump(db.wind_array.tolist(), open('wind_array.json', 'w'))
     # test = db.get_possible_moves(11, 45)
     # print(test)
     # print(len(test))
