@@ -15,12 +15,15 @@ class GeneratePaths:
 
     def generatePathFirstRigg(self):
         search_space = self.db.search_space
+        #initialize variables
         maxInitValue = -math.inf
-        initialX = 49
-        initialY = 28
+        initialX = 0
+        initialY = 0
 
+        #find the best initial position for the first rigg
         for i in range(100):
             for j in range(100):
+                #check if position is land
                 if search_space[i][j][0][0] == 0:
                     value = search_space[i][j][0][1]
                     if value > maxInitValue:
@@ -28,6 +31,7 @@ class GeneratePaths:
                         initialX = i
                         initialY = j
 
+        #set the initial position of the first rigg
         self.firstRiggPath.set_day_position(0,initialX, initialY, search_space[initialX][initialY][0][1])
         print(search_space[initialX][initialY][0][1], initialX, initialY)
 
@@ -35,6 +39,7 @@ class GeneratePaths:
         currentX = initialX
         currentY = initialY
 
+        #generate the best path for the first rigg
         for i in range(1, 30):
             value, currentX, currentY = self.nextMoveFirstRigg(search_space, currentX, currentY, i, self.DEPTH)
             value = search_space[currentX][currentY][i][1]
@@ -43,17 +48,22 @@ class GeneratePaths:
 
         return self.firstRiggPath
 
-    ## This function will generate the best path based on the best next moves 
+    # The second rigg path is generated with the same method as the first rigg
+    # but considers the first rigg path to avoid overlapping through time
     def generatePathSecondRigg(self):
         search_space = self.db.search_space
+        #initialize variables
         maxInitValue = -math.inf
-        initialX = 49
-        initialY = 28
+        initialX = 0
+        initialY = 0
 
+        #find the best initial position for the second rigg
         for i in range(100):
             for j in range(100):
+                #check if the position is in the neigbourhood of the first rigg initial position
                 if self.db.is_in_neigbourhood_of_first_rigg(i, j, self.firstRiggPath, 0):
                     continue
+                #check if position is land
                 if search_space[i][j][0][0] == 0:
                     value = search_space[i][j][0][1]
                     if value > maxInitValue:
@@ -61,12 +71,14 @@ class GeneratePaths:
                         initialX = i
                         initialY = j
 
+        #set the initial position of the second rigg
         self.secondRiggPath.set_day_position(0,initialX, initialY, search_space[initialX][initialY][0][1])
         print(search_space[initialX][initialY][0][1], initialX, initialY)
 
         currentX = initialX
         currentY = initialY
 
+        #generate the best path for the second rigg
         for i in range(1, 30):
             value, currentX, currentY = self.nextMoveSecondRigg(search_space, currentX, currentY, i, self.DEPTH)
             value = search_space[currentX][currentY][i][1]
@@ -76,6 +88,7 @@ class GeneratePaths:
         return self.secondRiggPath
 
     ## This function will return best next move based on the total value after a specific number of days
+    # This is an implementation of a recursive depth first search at a certain depth
     def nextMoveFirstRigg(self, search_space, Xposition, Yposition, day, depth):
 
         if depth == 0:
