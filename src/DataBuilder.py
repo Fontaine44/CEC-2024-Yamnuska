@@ -26,13 +26,14 @@ class DataBuilder:
         self.species_array = None
         self.temp_array = None
         self.wind_array = None
-        self.world_array = None #0 is land, 1 is water
+        self.world_array = None # 0 is land, 1 is water
 
         self.search_space = None
 
         self.generate_arrays()
         self.search_space = self.get_search_space()
 
+    # helper function to get all possible moves
     def get_possible_moves(self, x, y, numberOfMoves=5, day=None, path=None):
         if numberOfMoves == 0:
             return 0
@@ -42,16 +43,15 @@ class DataBuilder:
             return []
         possible_moves = [(x,y)]
         if path is None:
-            self.next_move_first_rigg(x, y, 0, possible_moves)
+            self.next_possible_move_first_rigg(x, y, 0, possible_moves)
         else:
-            self.next_move_second_rigg(x, y, 0, possible_moves, path, day)
+            self.next_possible_move_second_rigg(x, y, 0, possible_moves, path, day)
         return possible_moves
 
-    #helper function to get all possible moves
-    #recursively move by one step, until we reach the maximum number of moves
-    #continue if we hit an obstacle
-    def next_move_first_rigg(self, x, y, moveNb, moves, visited=[]):
-        if moveNb == 5: #max number of moves
+    # recursively move by one step, until we reach the maximum number of moves
+    # continue if we hit an obstacle
+    def next_possible_move_first_rigg(self, x, y, moveNb, moves, visited=[]):
+        if moveNb == 5: # max number of moves
             return
         for i in range(-1, 2):
             newX = x + i
@@ -69,14 +69,12 @@ class DataBuilder:
                     moves.append((newX, newY))
                 if (newX, newY, moveNb) not in visited:
                     visited.append((newX, newY, moveNb))
-                    self.next_move_first_rigg(newX, newY, moveNb + 1, moves, visited)
+                    self.next_possible_move_first_rigg(newX, newY, moveNb + 1, moves, visited)
 
-    #helper function to get all possible moves
-    #recursively move by one step, until we reach the maximum number of moves
-    #continue if we hit an obstacle
-    #continue if we are in the neighbourhood of the first rigg
-    def next_move_second_rigg(self, x, y, moveNb, moves, path, day, visited=[]):
-        if moveNb == 5: #max number of moves
+    # same implementation of next_move_first_rigg, but with an additional condition to
+    # continue if we are in the neighbourhood of the first rigg
+    def next_possible_move_second_rigg(self, x, y, moveNb, moves, path, day, visited=[]):
+        if moveNb == 5: # max number of moves
             return
         for i in range(-1, 2):
             newX = x + i
@@ -96,8 +94,9 @@ class DataBuilder:
                     moves.append((newX, newY))
                 if (newX, newY, moveNb) not in visited:
                     visited.append((newX, newY, moveNb))
-                    self.next_move_second_rigg(newX, newY, moveNb + 1, moves, visited)
+                    self.next_possible_move_second_rigg(newX, newY, moveNb + 1, moves, visited)
     
+    # helper function to assess if first rigg is in the neighbourhood of a certain point
     def is_in_neigbourhood_of_first_rigg(self, x, y, path, day):
         firstRiggX, firstRiggY = path.get_day_position(day)
        
@@ -109,9 +108,9 @@ class DataBuilder:
 
 
 
-    #get evaluated value at a certain point on a given day
-    #to maximize, we add all the resources on a map, and substract the preserveration resource
-    #this gives a set value used to evaluate a certain coordinate for our search
+    # get evaluated value at a certain point on a given day
+    # to maximize, we add all the resources on a map, and substract the preserveration resource
+    # this gives a set value used to evaluate a certain coordinate for our search
     def get_search_value_at(self, x, y, z):
         if x < 0 or x > 99 or y < 0 or y > 99 or z < 0 or z > 29:
             return 0
@@ -125,6 +124,7 @@ class DataBuilder:
     def isLand(self, x, y):
         return self.world_array[x][y][0] == 0
 
+    # creates the normalized search space array used for the path finding
     def get_search_space(self):
         search_array = np.zeros((100, 100, 30, 3))
         for i in range(100):
@@ -151,6 +151,8 @@ class DataBuilder:
         return search_array
                     
 
+    # generate the 3D array from the csv files
+    # normalize value data between 0 and 1
     def generate_array(self, dataset):
         array = np.zeros((100, 100, 30))
         for i in range(1, 31):
@@ -165,11 +167,11 @@ class DataBuilder:
                         value = float(row[3])
                         array[x][y][i - 1] = value
 
-        #normalize between 0 and 1
+        # normalize between 0 and 1
         array = array - np.min(array)
         return array / np.max(array)
                         
-
+    # generate all the arrays and create preserve & obtain arrays
     def generate_arrays(self):
         self.alga_array = self.generate_array(ALGA_DATASET)
         self.coral_array = self.generate_array(CORAL_DATASET)
