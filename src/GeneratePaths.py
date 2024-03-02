@@ -6,17 +6,18 @@ import json
 
 class GeneratePaths:
 
+
     def __init__(self):
         self.db = DataBuilder()
         self.firstRiggPath = Path(30)
         self.secondRiggPath = Path(30)
+        self.DEPTH = 4
 
     def generatePathFirstRigg(self):
         search_space = self.db.search_space
         maxInitValue = -math.inf
         initialX = 49
         initialY = 28
-        DEPTH = 5
 
         for i in range(100):
             for j in range(100):
@@ -35,7 +36,7 @@ class GeneratePaths:
         currentY = initialY
 
         for i in range(1, 30):
-            value, currentX, currentY = self.nextMoveFirstRigg(search_space, currentX, currentY, i, DEPTH)
+            value, currentX, currentY = self.nextMoveFirstRigg(search_space, currentX, currentY, i, self.DEPTH)
             value = search_space[currentX][currentY][i][1]
             print(value, currentX, currentY)
             self.firstRiggPath.set_day_position(i, currentX, currentY, value)
@@ -48,7 +49,6 @@ class GeneratePaths:
         maxInitValue = -math.inf
         initialX = 49
         initialY = 28
-        DEPTH = 5
 
         for i in range(100):
             for j in range(100):
@@ -68,7 +68,7 @@ class GeneratePaths:
         currentY = initialY
 
         for i in range(1, 30):
-            value, currentX, currentY = self.nextMoveSecondRigg(search_space, currentX, currentY, i, DEPTH)
+            value, currentX, currentY = self.nextMoveSecondRigg(search_space, currentX, currentY, i, self.DEPTH)
             value = search_space[currentX][currentY][i][1]
             print(value, currentX, currentY)
             self.secondRiggPath.set_day_position(i, currentX, currentY, value)
