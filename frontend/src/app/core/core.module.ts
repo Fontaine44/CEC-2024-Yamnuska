@@ -5,9 +5,10 @@ import { HomeComponent } from './components/home/home.component';
 import { Algo2Component } from './components/algo2/algo2.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PlotlyModule } from 'angular-plotly.js';
-import { Algo1Component } from './components/algo1/algo1.component';
+import { Example1Component } from './components/exemple1/example1.component';
 import { Algo4Component } from './components/algo4/algo4.component';
 import { Algo3Component } from './components/algo3/algo3.component';
+import { SharedModule } from 'app/shared/shared.module';
 
 
 const routes: Routes = [
@@ -16,8 +17,8 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'Algo1',
-    component: Algo1Component,
+    path: 'example1',
+    component: Example1Component,
   },
   {
     path: 'Algo2',
@@ -37,7 +38,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     HomeComponent,
-    Algo1Component,
+    Example1Component,
     Algo2Component,
     Algo3Component,
     Algo4Component,
@@ -45,6 +46,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    SharedModule,
     ReactiveFormsModule,
     PlotlyModule,
     FormsModule

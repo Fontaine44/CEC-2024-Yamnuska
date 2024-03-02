@@ -1,0 +1,17 @@
+<p><b>Day: {{currentDay}}</b></p>
+<div #gridContainer class="grid-container">
+    <div *ngFor="let row of grid; index as i" class="grid-row">
+        <div *ngFor="let cellType of row; index as j" class="grid-cell">
+            <app-grid-cell [type]="cellType" [size]="tileSize" [color]="opacity[i][j]"></app-grid-cell>
+        </div>
+    </div>
+</div>
+
+<!-- <div #information class="">
+    <div>
+        Current Position
+        <div *ngFor="let cellType of row; index as y" class="grid-cell">
+            <app-grid-cell [type]="cellType" [size]="tileSize"></app-grid-cell>
+        </div>
+    </div>
+</div> -->
