@@ -136,8 +136,19 @@ class DataBuilder:
                     search_array[i][j][k][1] = value
 
         # normalize between 0 and 1
-        search_array = search_array - np.min(search_array)
-        return search_array / 8
+        slice = search_array[..., 1]
+
+        # Compute min and max values of this slice
+        min_val = np.min(slice)
+        max_val = np.max(slice)
+
+        # Normalize the slice
+        normalized_slice = (slice - min_val) / (max_val - min_val)
+
+        # Assign the normalized values back to the original array
+        search_array[..., 1] = normalized_slice
+
+        return search_array
                     
 
     def generate_array(self, dataset):
@@ -185,6 +196,8 @@ if __name__ == '__main__':
     db = DataBuilder()
     search_space = db.search_space
     json.dump(search_space.tolist(), open('search_space.json', 'w'))
+    json.dump(db.temp_array.tolist(), open('temp_array.json', 'w'))
+    json.dump(db.wind_array.tolist(), open('wind_array.json', 'w'))
     # test = db.get_possible_moves(11, 45)
     # print(test)
     # print(len(test))

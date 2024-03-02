@@ -2,6 +2,7 @@ import numpy as np
 from Path import Path
 from DataBuilder import DataBuilder
 import math
+import json
 
 class GeneratePaths:
 
@@ -10,7 +11,8 @@ class GeneratePaths:
         self.firstRiggPath = Path(30)
         self.secondRiggPath = Path(30)
 
-    def generatePathFirstRigg(self, search_space):
+    def generatePathFirstRigg(self):
+        search_space = self.db.search_space
         maxInitValue = -math.inf
         initialX = 49
         initialY = 28
@@ -32,13 +34,15 @@ class GeneratePaths:
 
         for i in range(1, 30):
             value, currentX, currentY = self.nextMoveFirstRigg(search_space, currentX, currentY, i, DEPTH)
+            value = search_space[currentX][currentY][i][1]
             print(value, currentX, currentY)
             self.firstRiggPath.set_day_position(i, currentX, currentY, value)
 
         return self.firstRiggPath
 
     ## This function will generate the best path based on the best next moves 
-    def generatePathSecondRigg(self, search_space):
+    def generatePathSecondRigg(self):
+        search_space = self.db.search_space
         maxInitValue = -math.inf
         initialX = 49
         initialY = 28
@@ -60,6 +64,7 @@ class GeneratePaths:
 
         for i in range(1, 30):
             value, currentX, currentY = self.nextMoveSecondRigg(search_space, currentX, currentY, i, DEPTH)
+            value = search_space[currentX][currentY][i][1]
             print(value, currentX, currentY)
             self.secondRiggPath.set_day_position(i, currentX, currentY, value)
 
@@ -116,13 +121,13 @@ class GeneratePaths:
 
 
 if __name__ == "__main__":
-    db = DataBuilder()
-    search_space = db.get_search_space()
     gp = GeneratePaths()
-    gp.generatePathFirstRigg(search_space)
+    gp.generatePathFirstRigg()
     print("Value First Rigg:" + str(gp.firstRiggPath.get_total_value()))
-    gp.generatePathSecondRigg(search_space)
+    gp.generatePathSecondRigg()
     print("Value Second Rigg:" + str(gp.secondRiggPath.get_total_value()))
+    json.dump(gp.firstRiggPath.path.tolist(), open('firstRiggPath.json', 'w'))
+    json.dump(gp.secondRiggPath.path.tolist(), open('secondRiggPath.json', 'w'))
     
 
 
