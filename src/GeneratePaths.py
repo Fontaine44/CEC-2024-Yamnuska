@@ -41,7 +41,7 @@ class GeneratePaths:
 
         #generate the best path for the first rigg
         for i in range(1, 30):
-            value, currentX, currentY = self.nextMoveFirstRigg(search_space, currentX, currentY, i, self.DEPTH)
+            value, currentX, currentY = self.nextMoveRig(search_space, currentX, currentY, i, self.DEPTH, True)
             value = search_space[currentX][currentY][i][1]
             print(value, currentX, currentY)
             self.firstRiggPath.set_day_position(i, currentX, currentY, value)
@@ -80,54 +80,39 @@ class GeneratePaths:
 
         #generate the best path for the second rigg
         for i in range(1, 30):
-            value, currentX, currentY = self.nextMoveSecondRigg(search_space, currentX, currentY, i, self.DEPTH)
+            value, currentX, currentY = self.nextMoveRig(search_space, currentX, currentY, i, self.DEPTH, False)
             value = search_space[currentX][currentY][i][1]
             print(value, currentX, currentY)
             self.secondRiggPath.set_day_position(i, currentX, currentY, value)
 
         return self.secondRiggPath
-
-    ## This function will return best next move based on the total value after a specific number of days
-    # This is an implementation of a recursive depth first search at a certain depth
-    def nextMoveFirstRigg(self, search_space, Xposition, Yposition, day, depth):
-
-        if depth == 0:
-            return search_space[Xposition][Yposition][day][1], Xposition, Yposition
-        
-        possibleMoves = self.db.get_possible_moves(Xposition, Yposition)
-        maxMove = -math.inf
-        maxMoveX = 0
-        maxMoveY = 0
-        
-        for move in possibleMoves:
-            total = search_space[move[0]][move[1]][day][1]
-
-            if day < 29:
-                value, _ , _ = self.nextMoveFirstRigg(search_space, move[0], move[1], day + 1, depth - 1)
-                total = total + value
-
-            if total > maxMove:
-                maxMove = total
-                maxMoveX = move[0]
-                maxMoveY = move[1]
-
-        return maxMove, maxMoveX, maxMoveY
     
-    def nextMoveSecondRigg(self, search_space, Xposition, Yposition, day, depth):
 
+    # This function will return the best next move based on the total value accumulated after all moves
+    # It simulates all possible moves up to a certain depth, and computes the total value accumulated for each path
+    # This is an implementation of a recursive depth first search at a certain depth
+    def nextMoveRig(self, search_space, Xposition, Yposition, day, depth, isFirstRig):
         if depth == 0:
             return search_space[Xposition][Yposition][day][1], Xposition, Yposition
         
-        possibleMoves = self.db.get_possible_moves(Xposition, Yposition, day, self.firstRiggPath)
+        if isFirstRig:
+            #if first rig, we take into account all possible moves
+            possibleMoves = self.db.get_possible_moves(Xposition, Yposition)
+        else:
+            #if second rig, we take into account all possible moves except those in the neigbourhood of the first rigg
+            possibleMoves = self.db.get_possible_moves(Xposition, Yposition, day, self.firstRiggPath)
+
+        #initialize variables
         maxMove = -math.inf
         maxMoveX = 0
         maxMoveY = 0
-        
+
         for move in possibleMoves:
             total = search_space[move[0]][move[1]][day][1]
 
             if day < 29:
-                value, _ , _ = self.nextMoveSecondRigg(search_space, move[0], move[1], day + 1, depth - 1)
+                #recursive call to simulate the next move, at next depth
+                value, _ , _ = self.nextMoveRig(search_space, move[0], move[1], day + 1, depth - 1, isFirstRig)
                 total = total + value
 
             if total > maxMove:
