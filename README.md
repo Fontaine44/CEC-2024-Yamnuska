@@ -1,21 +1,3 @@
-# CEC-2024-Programming-Competition
-
-Welcome to the CEC 2024 Programming Competition! Everything you need is in this Github, and we recommend the following steps to get started:
-1. Read the rest of this README.md
-1. Read the tutorial linked in githubHowToUseGithubDesktop.txt 
-1. Read the tutorial linked in githubHowToFork.txt
-1. Fork this repo
-1. Clone your forked repo locally on your machine
-1. Start coding!
-
-## Getting Help
-
-Please follow the following steps if you need help:
-1. Check the included documentation for logistics and scoring questions
-1. Check the Programming Competition Case for competition questions
-1. Check the discord for previously answered questions
-1. If you have done all of that, ask the Directors for help. If we can answer your question, it will be posted on the discord in English and French.
-
 ## Important Notes
 In your README.md please specify:
 - How to run your code
@@ -25,30 +7,54 @@ In your README.md please specify:
 **Any specifications of this sort not included in your README cannot be assumed to be on the
 Directors’ machine(s).**
 
-.................................................................
 
-# Concours-de programmation-CCI-2024
 
-Bienvenue au concours de programmation de la CCI 2024 ! Tout ce dont vous avez besoin se trouve dans ce Github, et nous vous recommandons de suivre les étapes suivantes pour commencer :
-1. Lisez le reste de ce README.md
-1. Lisez le tutoriel lié à githubCommentUtiliserGithubDesktop.txt
-1. Lisez le tutoriel lié à githubCommentdupliquer.txt
-1. Dupliquer (fork) ce référentiel
-1. Clonez votre référentiel dupliqué localement sur votre machine
-1. Commencez à coder !
+# README.md for Programming 2024 Project
 
-## Obtenir de l'aide
+## Project Overview
 
-Si vous avez besoin d'aide, veuillez suivre les étapes suivantes :
-1. Vérifier la documentation incluse pour la logistique et les questions de notation.
-1. Consultez le dossier du concours de programmation pour les questions relatives au concours
-1. Vérifier le discord pour les questions auxquelles nous avons déjà répondu
-1. Si vous avez fait tout cela, demandez de l'aide aux directeurs. Si nous pouvons répondre à votre question, elle sera affichée sur le discord en anglais et en français.
+This project is developed for the Programming 2024 competition, focusing on identifying optimal offshore drilling locations while considering environmental preservation. Our solution utilizes a combination of obtain and preserve datasets, with informational datasets enhancing our web-based visualization tool. The core algorithm employs a greedy approach with a two-move lookahead strategy to maximize the value and determine the next move efficiently.
 
-## Remarques importantes
-Dans votre LISEZMOI.md, veuillez préciser :
-- Comment exécuter votre code
-- Le langage et la version utilisés par votre code (par exemple, Python 3.11)
-- Une liste des paquets requis (i.e. Pandas, NumPy), avec la version si nécessaire (ie. pytorch==2.1.116)
-- Si nécessaire, le système d'exploitation sur lequel votre code doit être exécuté
-**Toutes les spécifications de ce type qui ne sont pas incluses dans votre LISEZMOI ne peuvent pas être considérées comme étant sur la (les) machine(s) des directeurs**.
+## Language and Libraries
+
+- **Language**: Python
+- **Libraries**: numpy, math, csv, json, angular
+
+Ensure you have Python installed on your machine. The code has been developed and tested with Python 3.8. It's recommended to use a similar version to avoid compatibility issues.
+
+## Setup Instructions
+
+1. **Install Required Libraries**:
+   
+   Before running the project, make sure to install the required Python libraries. Open a terminal or command prompt and run the following command:
+
+
+`pip install numpy angular`
+
+Note: `math`, `csv`, and `json` are part of the Python Standard Library and do not require installation.
+
+2. **Clone the Repository**:
+
+Clone the project repository from GitHub to your local machine using the following command:
+
+
+`git clone <repository-url>`
+
+
+3. **Run the Website Locally**:
+
+To view the website and its visualizations, you will need to run it locally on your computer. Navigate to the project's directory in your terminal, and execute the following command:
+
+`python -m http.server`
+
+This will start a local web server. Open a web browser and go to `http://localhost:8000` to view the website.
+
+## Datasets Used
+
+- **Obtain Datasets**: All available datasets for obtainable resources have been utilized to maximize the potential drilling locations.
+- **Preserve Dataset**: A single dataset has been chosen for preservation to balance resource extraction with environmental protection.
+- **Informational Datasets**: These datasets are used to enhance the visualization on our website, providing users with comprehensive insights into the drilling operations and environmental considerations.
+
+## Algorithm Overview
+
+Our solution is based on a greedy algorithm with a two-move lookahead feature. This approach allows us to evaluate the potential value of drilling locations not just based on their immediate value but also considering the subsequent moves. By maximizing the value at each step, we aim to identify the most optimal drilling locations that respect environmental preservation criteria while ensuring efficient resource extraction.
