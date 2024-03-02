@@ -128,8 +128,8 @@ if __name__ == "__main__":
     print("Value First Rig:" + str(gp.firstRigPath.get_total_value()))
     gp.generate_path_second_rig()
     print("Value Second Rig:" + str(gp.secondRigPath.get_total_value()))
-    json.dump(gp.firstRigPath.path.tolist(), open('firstRigPath.json', 'w'))
-    json.dump(gp.secondRigPath.path.tolist(), open('secondRigPath.json', 'w'))
+    json.dump(gp.firstRigPath.path.tolist(), open('output/firstRigPath.json', 'w'))
+    json.dump(gp.secondRigPath.path.tolist(), open('output/secondRigPath.json', 'w'))
     
 
 

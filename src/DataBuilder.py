@@ -192,9 +192,9 @@ class DataBuilder:
 if __name__ == '__main__':
     db = DataBuilder()
     search_space = db.search_space
-    json.dump(search_space.tolist(), open('search_space.json', 'w'))
-    json.dump(db.temp_array.tolist(), open('temp_array.json', 'w'))
-    json.dump(db.wind_array.tolist(), open('wind_array.json', 'w'))
+    json.dump(search_space.tolist(), open('output/search_space.json', 'w'))
+    json.dump(db.temp_array.tolist(), open('output/temp_array.json', 'w'))
+    json.dump(db.wind_array.tolist(), open('output/wind_array.json', 'w'))
 
     
 
