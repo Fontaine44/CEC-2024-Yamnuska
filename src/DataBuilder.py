@@ -1,6 +1,7 @@
 import csv
 import numpy as np
 import json
+import math
 
 # Data source
 ALGA_DATASET = '../data/algal_data_day_'
@@ -30,7 +31,7 @@ class DataBuilder:
         self.search_space = None
 
         self.generate_arrays()
-        self.get_search_space()
+        self.search_space = self.get_search_space()
 
     def get_possible_moves(self, x, y, numberOfMoves=5):
         if numberOfMoves == 0:
@@ -43,8 +44,11 @@ class DataBuilder:
         self.next_move(x, y, 0, possible_moves)
         return possible_moves
 
-    def next_move(self, x, y, moveNb, moves):
-        if moveNb == 5:
+    #helper function to get all possible moves
+    #recursively move by one step, until we reach the maximum number of moves
+    #continue if we hit an obstacle
+    def next_move(self, x, y, moveNb, moves, visited=[]):
+        if moveNb == 5: #max number of moves
             return
         for i in range(-1, 2):
             newX = x + i
@@ -60,7 +64,9 @@ class DataBuilder:
                     continue
                 if (newX, newY) not in moves:
                     moves.append((newX, newY))
-                self.next_move(newX, newY, moveNb + 1, moves)
+                if (newX, newY, moveNb) not in visited:
+                    visited.append((newX, newY, moveNb))
+                    self.next_move(newX, newY, moveNb + 1, moves, visited)
 
     #get evaluated value at a certain point on a given day
     #to maximize, we add all the resources on a map, and substract the preserveration resource
@@ -72,7 +78,7 @@ class DataBuilder:
         for array in self.OBTAIN:
             value += array[x][y][z]
         for array in self.PRESERVE:
-            value -= array[x][y][z]
+            value -= 4*array[x][y][z]
         return value
     
     def isLand(self, x, y):
@@ -88,13 +94,15 @@ class DataBuilder:
                     search_array[i][j][k][0] = isLand
                     search_array[i][j][k][1] = value
 
-        self.search_space = search_array
-
-        return search_array
+        # normalize between 0 and 1
+        search_array = search_array - np.min(search_array)
+        return search_array / 8
                     
 
     def generate_array(self, dataset):
         array = np.zeros((100, 100, 30))
+        min_value = math.inf
+        max_value = -math.inf
         for i in range(1, 31):
             with open(dataset + str(i) + '.csv', 'r') as file:
                 reader = csv.reader(file)
@@ -105,9 +113,15 @@ class DataBuilder:
                     y = int(row[2])
                     if row[3] != '':
                         value = float(row[3])
+                        if value < min_value:
+                            min_value = value
+                        if value > max_value:
+                            max_value = value
                         array[x][y][i - 1] = value
 
-        return array
+        #normalize between 0 and 1
+        array = array - np.min(array)
+        return array / np.max(array)
                         
 
     def generate_arrays(self):
@@ -129,9 +143,9 @@ class DataBuilder:
 if __name__ == '__main__':
     db = DataBuilder()
     search_space = db.search_space
-    #json.dump(search_space.tolist(), open('search_space.json', 'w'))
-    test = db.get_possible_moves(11, 45)
-    print(test)
-    print(len(test))
+    json.dump(search_space.tolist(), open('search_space.json', 'w'))
+    # test = db.get_possible_moves(11, 45)
+    # print(test)
+    # print(len(test))
     
 

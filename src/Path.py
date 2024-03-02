@@ -13,4 +13,4 @@ class Path:
         return self.path[:, index]
         
     def get_total_value(self):
-        return np.sum(self.path[2, :])
+        return np.sum(self.path[:, 2])

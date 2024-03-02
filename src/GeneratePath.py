@@ -10,8 +10,9 @@ class GeneratePath:
 
     def GeneratePath(self, search_space):
         maxInitValue = -math.inf
-        initialX = 60
-        initialY = 15
+        initialX = 49
+        initialY = 28
+        DEPTH = 5
 
         # print("generating path")
 
@@ -31,7 +32,7 @@ class GeneratePath:
         currentY = initialY
 
         for i in range(1, 30):
-            value, currentX, currentY = self.nextMove(search_space, currentX, currentY, i, 2)
+            value, currentX, currentY = self.nextMove(search_space, currentX, currentY, i, DEPTH)
             print(value, currentX, currentY)
             path.set_day_position(i, currentX, currentY, value)
 
@@ -67,6 +68,7 @@ if __name__ == "__main__":
     gp = GeneratePath()
     path = gp.GeneratePath(search_space)
     print(path.path)
+    print("Value:" + str(path.get_total_value()))
 
 
 
