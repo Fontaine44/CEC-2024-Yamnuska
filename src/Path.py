@@ -2,7 +2,7 @@ import numpy as np
 
 class Path: 
     def __init__(self, length):
-        self.path = np.empty((length, 3), dtype=int)
+        self.path = np.empty((length, 3), dtype=float)
     
     def set_day_position(self, index, x, y, value):
             self.path[index][0] = x

@@ -85,7 +85,7 @@ class DataBuilder:
         return self.world_array[x][y][0] == 0
 
     def get_search_space(self):
-        search_array = np.zeros((100, 100, 30, 2))
+        search_array = np.zeros((100, 100, 30, 3))
         for i in range(100):
             for j in range(100):
                 for k in range(30):
@@ -95,8 +95,19 @@ class DataBuilder:
                     search_array[i][j][k][1] = value
 
         # normalize between 0 and 1
-        search_array = search_array - np.min(search_array)
-        return search_array / 8
+        slice_of_interest = search_array[..., 1]
+
+        # Compute min and max values of this slice
+        min_val = np.min(slice_of_interest)
+        max_val = np.max(slice_of_interest)
+
+        # Normalize the slice
+        normalized_slice = (slice_of_interest - min_val) / (max_val - min_val)
+
+        # Assign the normalized values back to the original array
+        search_array[..., 1] = normalized_slice
+
+        return search_array
                     
 
     def generate_array(self, dataset):
