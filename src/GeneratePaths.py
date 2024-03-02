@@ -28,6 +28,8 @@ class GeneratePaths:
                         initialY = j
 
         self.firstRiggPath.set_day_position(0,initialX, initialY, search_space[initialX][initialY][0][1])
+        print(search_space[initialX][initialY][0][1], initialX, initialY)
+
 
         currentX = initialX
         currentY = initialY
@@ -48,16 +50,19 @@ class GeneratePaths:
         initialY = 28
         DEPTH = 5
 
-        # for i in range(100):
-        #     for j in range(100):
-        #         if search_space[i][j][0][0] == 0:
-        #             value = search_space[i][j][0][1]
-        #             if value > maxInitValue:
-        #                 maxInitValue = value
-        #                 initialX = i
-        #                 initialY = j
+        for i in range(100):
+            for j in range(100):
+                if self.db.is_in_neigbourhood_of_first_rigg(i, j, self.firstRiggPath, 0):
+                    continue
+                if search_space[i][j][0][0] == 0:
+                    value = search_space[i][j][0][1]
+                    if value > maxInitValue:
+                        maxInitValue = value
+                        initialX = i
+                        initialY = j
 
         self.secondRiggPath.set_day_position(0,initialX, initialY, search_space[initialX][initialY][0][1])
+        print(search_space[initialX][initialY][0][1], initialX, initialY)
 
         currentX = initialX
         currentY = initialY
