@@ -43,14 +43,14 @@ class DataBuilder:
             return []
         possible_moves = [(x,y)]
         if path is None:
-            self.next_possible_move_first_rigg(x, y, 0, possible_moves)
+            self.next_possible_move_first_rig(x, y, 0, possible_moves)
         else:
-            self.next_possible_move_second_rigg(x, y, 0, possible_moves, path, day)
+            self.next_possible_move_second_rig(x, y, 0, possible_moves, path, day)
         return possible_moves
 
     # recursively move by one step, until we reach the maximum number of moves
     # continue if we hit an obstacle
-    def next_possible_move_first_rigg(self, x, y, moveNb, moves, visited=[]):
+    def next_possible_move_first_rig(self, x, y, moveNb, moves, visited=[]):
         if moveNb == 5: # max number of moves
             return
         for i in range(-1, 2):
@@ -69,11 +69,11 @@ class DataBuilder:
                     moves.append((newX, newY))
                 if (newX, newY, moveNb) not in visited:
                     visited.append((newX, newY, moveNb))
-                    self.next_possible_move_first_rigg(newX, newY, moveNb + 1, moves, visited)
+                    self.next_possible_move_first_rig(newX, newY, moveNb + 1, moves, visited)
 
-    # same implementation of next_move_first_rigg, but with an additional condition to
-    # continue if we are in the neighbourhood of the first rigg
-    def next_possible_move_second_rigg(self, x, y, moveNb, moves, path, day, visited=[]):
+    # same implementation of next_move_first_rig, but with an additional condition to
+    # continue if we are in the neighbourhood of the first rig
+    def next_possible_move_second_rig(self, x, y, moveNb, moves, path, day, visited=[]):
         if moveNb == 5: # max number of moves
             return
         for i in range(-1, 2):
@@ -88,20 +88,20 @@ class DataBuilder:
                     continue
                 if self.world_array[newX][newY][0] == 1:
                     continue 
-                if self.is_in_neigbourhood_of_first_rigg(newX, newY, path, day): 
+                if self.is_in_neigbourhood_of_first_rig(newX, newY, path, day): 
                     continue
                 if (newX, newY) not in moves:
                     moves.append((newX, newY))
                 if (newX, newY, moveNb) not in visited:
                     visited.append((newX, newY, moveNb))
-                    self.next_possible_move_second_rigg(newX, newY, moveNb + 1, moves, visited)
+                    self.next_possible_move_second_rig(newX, newY, moveNb + 1, moves, visited)
     
-    # helper function to assess if first rigg is in the neighbourhood of a certain point
-    def is_in_neigbourhood_of_first_rigg(self, x, y, path, day):
-        firstRiggX, firstRiggY = path.get_day_position(day)
+    # helper function to assess if first rig is in the neighbourhood of a certain point
+    def is_in_neigbourhood_of_first_rig(self, x, y, path, day):
+        firstRigX, firstRigY = path.get_day_position(day)
        
-        x_diff = abs(firstRiggX - x)
-        y_diff = abs(firstRiggY - y)
+        x_diff = abs(firstRigX - x)
+        y_diff = abs(firstRigY - y)
 
         max_diff = max(x_diff, y_diff)
         return max_diff <= 2

@@ -22,6 +22,12 @@ This project is developed for the Programming 2024 competition, focusing on iden
 
 Ensure you have Python installed on your machine. The code has been developed and tested with Python 3.11. It's recommended to use a similar version to avoid compatibility issues.
 
+## Data files location
+
+The data files (.csv) should be located in
+
+`<root folder>/data/`
+
 ## Setup Instructions
 
 1. **Install Required Libraries**:
