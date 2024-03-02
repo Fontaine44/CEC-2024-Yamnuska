@@ -8,8 +8,9 @@ class GeneratePaths:
 
     def __init__(self):
         self.db = DataBuilder()
-        self.firstRigPath = Path(30)
-        self.secondRigPath = Path(30)
+        self.MAX_DAYS = 30
+        self.firstRigPath = Path(self.MAX_DAYS)
+        self.secondRigPath = Path(self.MAX_DAYS)
         self.DEPTH = 4
 
     def generate_path_first_rig(self):
@@ -39,7 +40,7 @@ class GeneratePaths:
         currentY = initialY
 
         #generate the best path for the first rig
-        for i in range(1, 30):
+        for i in range(1, self.MAX_DAYS):
             value, currentX, currentY = self.next_move_rig(search_space, currentX, currentY, i, self.DEPTH, True)
             value = search_space[currentX][currentY][i][1]
             print(value, currentX, currentY)
@@ -78,7 +79,7 @@ class GeneratePaths:
         currentY = initialY
 
         #generate the best path for the second rig
-        for i in range(1, 30):
+        for i in range(1, self.MAX_DAYS):
             value, currentX, currentY = self.next_move_rig(search_space, currentX, currentY, i, self.DEPTH, False)
             value = search_space[currentX][currentY][i][1]
             print(value, currentX, currentY)
@@ -109,7 +110,7 @@ class GeneratePaths:
         for move in possibleMoves:
             total = search_space[move[0]][move[1]][day][1]
 
-            if day < 29:
+            if day < self.MAX_DAYS - 1:
                 #recursive call to simulate the next move, at next depth
                 value, _ , _ = self.next_move_rig(search_space, move[0], move[1], day + 1, depth - 1, isFirstRig)
                 total = total + value
