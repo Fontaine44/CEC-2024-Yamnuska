@@ -188,14 +188,13 @@ class DataBuilder:
         self.PRESERVE = [self.coral_array]
 
 
+#testing function 
 if __name__ == '__main__':
     db = DataBuilder()
     search_space = db.search_space
     json.dump(search_space.tolist(), open('search_space.json', 'w'))
     json.dump(db.temp_array.tolist(), open('temp_array.json', 'w'))
     json.dump(db.wind_array.tolist(), open('wind_array.json', 'w'))
-    # test = db.get_possible_moves(11, 45)
-    # print(test)
-    # print(len(test))
+
     
 
