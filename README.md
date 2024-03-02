@@ -17,10 +17,10 @@ This project is developed for the Programming 2024 competition, focusing on iden
 
 ## Language and Libraries
 
-- **Language**: Python
+- **Language**: Python 3.11
 - **Libraries**: numpy, math, csv, json, angular
 
-Ensure you have Python installed on your machine. The code has been developed and tested with Python 3.8. It's recommended to use a similar version to avoid compatibility issues.
+Ensure you have Python installed on your machine. The code has been developed and tested with Python 3.11. It's recommended to use a similar version to avoid compatibility issues.
 
 ## Setup Instructions
 
@@ -29,7 +29,7 @@ Ensure you have Python installed on your machine. The code has been developed an
    Before running the project, make sure to install the required Python libraries. Open a terminal or command prompt and run the following command:
 
 
-`pip install numpy angular`
+`pip install numpy`
 
 Note: `math`, `csv`, and `json` are part of the Python Standard Library and do not require installation.
 
@@ -38,23 +38,26 @@ Note: `math`, `csv`, and `json` are part of the Python Standard Library and do n
 Clone the project repository from GitHub to your local machine using the following command:
 
 
-`git clone <repository-url>`
+`git clone https://github.com/Fontaine44/CEC-2024-Yamnuska.git`
 
 
-3. **Run the Website Locally**:
+3. **Generate the paths**:
 
-To view the website and its visualizations, you will need to run it locally on your computer. Navigate to the project's directory in your terminal, and execute the following command:
+To run the algorithms that generate paths, run the following command:
 
-`python -m http.server`
+`python CEC-2024-Yamnuska/src/GeneratePaths.py`
 
-This will start a local web server. Open a web browser and go to `http://localhost:8000` to view the website.
+This will generate 2 json files corresponding to both path generated for the rigs, and are placed inside the src folder.
+
+4. **Run the web application**:
+
 
 ## Datasets Used
 
 - **Obtain Datasets**: All available datasets for obtainable resources have been utilized to maximize the potential drilling locations.
-- **Preserve Dataset**: A single dataset has been chosen for preservation to balance resource extraction with environmental protection.
+- **Preserve Dataset**: A single dataset has been chosen for preservation to balance resource extraction with environmental protection. This dataset is the coral dataset.
 - **Informational Datasets**: These datasets are used to enhance the visualization on our website, providing users with comprehensive insights into the drilling operations and environmental considerations.
 
 ## Algorithm Overview
 
-Our solution is based on a greedy algorithm with a two-move lookahead feature. This approach allows us to evaluate the potential value of drilling locations not just based on their immediate value but also considering the subsequent moves. By maximizing the value at each step, we aim to identify the most optimal drilling locations that respect environmental preservation criteria while ensuring efficient resource extraction.
+Our solution is based on a greedy algorithm with a four-move lookahead feature. This approach allows us to evaluate the potential value of drilling locations not just based on their immediate value but also considering the subsequent moves. By maximizing the value at each step, we aim to identify the most optimal drilling locations that respect environmental preservation criteria while ensuring efficient resource extraction.
