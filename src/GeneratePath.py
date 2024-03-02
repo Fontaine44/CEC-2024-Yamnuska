@@ -2,6 +2,7 @@ import numpy as np
 from Path import Path
 from DataBuilder import DataBuilder
 import math
+import json
 
 class GeneratePath:
 
@@ -9,7 +10,6 @@ class GeneratePath:
         self.db = DataBuilder()
 
     def GeneratePath(self, search_space):
-        maxInitValue = -math.inf
         initialX = 49
         initialY = 28
         DEPTH = 5
@@ -33,6 +33,7 @@ class GeneratePath:
 
         for i in range(1, 30):
             value, currentX, currentY = self.nextMove(search_space, currentX, currentY, i, DEPTH)
+            value = search_space[currentX][currentY][i][1]
             print(value, currentX, currentY)
             path.set_day_position(i, currentX, currentY, value)
 
@@ -64,11 +65,12 @@ class GeneratePath:
 
 if __name__ == "__main__":
     db = DataBuilder()
-    search_space = db.get_search_space()
+    search_space = db.search_space
     gp = GeneratePath()
     path = gp.GeneratePath(search_space)
     print(path.path)
     print("Value:" + str(path.get_total_value()))
+    json.dump(path.path.tolist(), open('path.json', 'w'))
 
 
 

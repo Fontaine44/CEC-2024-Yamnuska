@@ -126,7 +126,7 @@ class DataBuilder:
         return self.world_array[x][y][0] == 0
 
     def get_search_space(self):
-        search_array = np.zeros((100, 100, 30, 2))
+        search_array = np.zeros((100, 100, 30, 3))
         for i in range(100):
             for j in range(100):
                 for k in range(30):
@@ -153,10 +153,8 @@ class DataBuilder:
 
     def generate_array(self, dataset):
         array = np.zeros((100, 100, 30))
-        min_value = math.inf
-        max_value = -math.inf
         for i in range(1, 31):
-            with open(dataset + str(i) + '.csv', 'r') as file:
+            with open(dataset + str(i) + '.csv', 'r') as file: #get data from csv
                 reader = csv.reader(file)
                 for row in reader:
                     if row[1] == 'x':
@@ -165,10 +163,6 @@ class DataBuilder:
                     y = int(row[2])
                     if row[3] != '':
                         value = float(row[3])
-                        if value < min_value:
-                            min_value = value
-                        if value > max_value:
-                            max_value = value
                         array[x][y][i - 1] = value
 
         #normalize between 0 and 1
