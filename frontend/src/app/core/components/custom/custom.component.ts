@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import data from '....../src/output/search_space.json';
-import path1 from '....../src/output/firstRigPath.json';
-import path2 from '....../src/output/secondRigPath.json';
+import data from '../../../../../../src/output/search_space.json';
+import path1 from '../../../../../../src/output/firstRigPath.json';
+import path2 from '../../../../../../src/output/secondRigPath.json';
 
 @Component({
   selector: 'app-custom',

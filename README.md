@@ -57,6 +57,13 @@ This will generate 2 json files corresponding to both path generated for the rig
 
 4. **Run the web application**:
 
+- Install npm 10.2.4
+- Install node v20.11.0
+- Open cmd and navigate to the "frontend" director(using cd)
+- run: "npm install"
+- run: "npm start"
+- Go to "localhost:4200" on your browser, preferably Google Chrome
+- You are now on our interface
 
 ## Datasets Used
 
