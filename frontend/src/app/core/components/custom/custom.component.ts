@@ -125,7 +125,7 @@ export class CustomComponent {
 
       // set the positions of the rigs
       this.rig1Position = path1[this.currentDay];
-      this.rig2Position = path1[this.currentDay];
+      this.rig2Position = path2[this.currentDay];
 
       this.currentDay++;    // Go to the next day
 
