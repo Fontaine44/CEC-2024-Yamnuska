@@ -1,0 +1,47 @@
+<!-- Components taken from Bootstrap 5 templates online -->
+<div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h3 class="text-center"><u>Animation</u></h3>
+
+        <div class="btn-group my-2">
+            <button type="button" class="btn btn-primary" (click)="startGridUpdate()" [disabled]="isPlaying" style="color: black;">Start</button>
+            <button type="button" class="btn btn-primary" (click)="stopGridUpdate()" [disabled]="!isPlaying" style="color: black;">Stop</button>
+            <button type="button" class="btn btn-primary" (click)="resetAnimation()" style="color: black;">Reset</button>
+        </div>
+        
+        <div class="my-2">
+          <button type="button" class="btn btn-primary" (click)="changeRig()" style="color: black;">Switch Rig</button>
+        </div>
+        
+
+        <div class="form-check form-switch my-2">
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" [(ngModel)]="slowMode" (change)="onSwitchChange()">
+          <label class="form-check-label" for="flexSwitchCheckDefault">Slow-Mo Mode</label>
+        </div>
+
+        <div #gridContainer class="grid-container">
+            <div *ngFor="let row of grid; index as i" class="grid-row">
+                <div *ngFor="let cellType of row; index as j" class="grid-cell">
+                    <app-grid-cell [type]="cellType" [size]="tileSize" [color]="opacity[i][j]"></app-grid-cell>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div #information>
+            <h3 class="text-center"><u>Information</u></h3>
+            <div class="info-text">
+                <b>Day: </b>{{currentDay}} <br>
+                <b>Current Rig #: </b>{{currentRig+1}} <br>
+                <br>
+                <b>Rig #2 Position: </b>({{rig1Position[0]}},{{rig1Position[1]}}) <br>
+                <b>Position Normalized Score: </b>{{path1[currentDay][2]}} <br>
+                <br>
+                <b>Rig #2 Position: </b>({{rig2Position[0]}},{{rig2Position[1]}}) <br>
+                <b>Position Normalized Score: </b>{{path2[currentDay][2]}} <br>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>

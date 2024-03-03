@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg bg-navbar px-2">
+  <div class="container-fluid">
+    <div class="d-flex flex-row align-items-center">
+      <div>
+        <a [routerLink]="['/']">
+          <img src="../assets/logo.png" width="auto" height="50">
+        </a>
+      </div>
+
+      <div>
+        <a class="navbar-brand ms-3" [routerLink]="['/']"><b>Yamnuska</b></a>
+      </div>
+      
+    </div>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item ms-2">
+          <a class="nav-link" [routerLink]="['/']" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact:true}">Home</a>
+        </li>
+        <li class="nav-item ms-2">
+          <a class="nav-link" [routerLink]="['/example']" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact:true}">Example</a>
+        </li>
+        <li class="nav-item ms-2">
+          <a class="nav-link" [routerLink]="['/custom']" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact:true}">Custom</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>

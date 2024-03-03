@@ -1,0 +1,22 @@
+:host {
+  padding: 1rem;
+}
+
+.grid-container {
+  display: block;
+  height: 500px;
+  width: 500px;
+}
+
+.grid-row {
+  display: flex;
+}
+
+.grid-cell {
+  margin: 0;
+  padding: 0;
+}
+
+.info-text {
+  font-size: 20px;
+}
