@@ -120,9 +120,6 @@ class DataBuilder:
         for array in self.PRESERVE:
             value -= 4*array[x][y][z]
         return value
-    
-    def is_land(self, x, y):
-        return self.world_array[x][y][0] == 0
 
     # creates the normalized search space array used for the path finding
     def get_search_space(self):
